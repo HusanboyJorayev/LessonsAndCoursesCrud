@@ -1,8 +1,6 @@
 package com.example.lessonscrudproject.security.mapper;
 
-import com.example.lessonscrudproject.dto.CoursesDto;
 import com.example.lessonscrudproject.dto.LessonsDto;
-import com.example.lessonscrudproject.model.Courses;
 import com.example.lessonscrudproject.model.Lessons;
 import org.mapstruct.*;
 

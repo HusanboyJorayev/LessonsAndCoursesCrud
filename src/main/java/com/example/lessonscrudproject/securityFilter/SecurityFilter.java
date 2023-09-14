@@ -1,6 +1,7 @@
 package com.example.lessonscrudproject.securityFilter;
 
 import com.example.lessonscrudproject.dto.AuthDto;
+import com.example.lessonscrudproject.security.AuthService;
 import io.micrometer.common.util.StringUtils;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

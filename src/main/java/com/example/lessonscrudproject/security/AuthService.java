@@ -13,6 +13,7 @@ import com.example.lessonscrudproject.repository.AuthoritiesRepository;
 import com.example.lessonscrudproject.security.mapper.AuthMapper;
 import com.example.lessonscrudproject.security.validation.AuthValidation;
 import com.example.lessonscrudproject.securityFilter.JwtUtils;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -68,7 +69,7 @@ public class AuthService implements UserDetailsService {
     }
 
 
-   // @Transactional
+    @Transactional
     public ResponseDto<TokenResponseDto> registerConfirm(RegisterConfirmDto dto) {
         return this.authRepository.findByUsernameAndDeletedAtIsNull(dto.getUsername())
                 .map(auth -> {
@@ -104,7 +105,7 @@ public class AuthService implements UserDetailsService {
 
 
     }
-
+    @Transactional
     public ResponseDto<TokenResponseDto> login(LoginDto dto) {
         return this.authRepository.findByUsernameAndEnabledIsTrueAndDeletedAtIsNull(dto.getUsername())
                 .map(auth -> {

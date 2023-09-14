@@ -28,7 +28,7 @@ public abstract class AuthMapper {
     @Mapping(ignore = true, target = "updatedAt")
     @Mapping(ignore = true, target = "deletedAt")
     @Mapping(target = "enabled", expression = "java(false)")
-    @Mapping(target = "code", expression = "java(String.valueOf(0000))")
+    //@Mapping(target = "code", expression = "java(String.valueOf(0000))")
     public abstract Auth toEntity(AuthDto authDto);
 
     @Mapping(target = "password", expression = "java(passwordEncoder.encode(auth.getPassword()))")

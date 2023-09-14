@@ -84,21 +84,22 @@ public class AuthoritiesService /*implements SimpleCrud<Integer, AuthoritiesDto>
 
 
     public ResponseDto<AuthoritiesDto> delete(String username) {
-        Optional<Authorities> optional = this.authoritiesRepository.findByUsernameAndDeletedAtIsNull(username);
-        if (optional.isEmpty()) {
-            return ResponseDto.<AuthoritiesDto>builder()
-                    .code(-1)
-                    .message("authority is not found")
-                    .build();
-        }
-        var authority = optional.get();
-        authority.setDeletedAt(LocalDateTime.now());
-        this.authoritiesRepository.save(authority);
-        return ResponseDto.<AuthoritiesDto>builder()
-                .success(true)
-                .message("Ok")
-                .data(this.authoritiesMapper.toDto(authority))
-                .build();
+
+        return this.authoritiesRepository.findByUsernameAndDeletedAtIsNull(username)
+                .map(authority -> {
+                    authority.setDeletedAt(LocalDateTime.now());
+                    this.authoritiesRepository.save(authority);
+                    return ResponseDto.<AuthoritiesDto>builder()
+                            .success(true)
+                            .message("Ok")
+                            .data(this.authoritiesMapper.toDto(authority))
+                            .build();
+                })
+                .orElse(ResponseDto.<AuthoritiesDto>builder()
+                        .code(-1)
+                        .message("authority is not found")
+                        .build());
+
     }
 
     public ResponseDto<List<AuthoritiesDto>> getAll() {
