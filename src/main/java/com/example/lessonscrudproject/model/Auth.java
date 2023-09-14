@@ -24,7 +24,7 @@ public class Auth {
     private String password;
     @Column(unique = true,nullable = false)
     private String username;
-    private boolean enabled;
+    private Boolean enabled;
 
     @OneToMany(mappedBy = "authId",fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     private Set<Authorities>authorities;

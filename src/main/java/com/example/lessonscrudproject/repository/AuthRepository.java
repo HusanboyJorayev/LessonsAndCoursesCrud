@@ -10,11 +10,8 @@ import java.util.Optional;
 @Repository
 public interface AuthRepository extends JpaRepository<Auth,Integer> {
 
-    Optional<Auth>findByAuthIdAndDeletedAtIsNull(Integer authId);
     Optional<Auth>findByUsernameAndEnabledIsTrueAndDeletedAtIsNull(String username);
+    Optional<Auth>findByUsernameAndDeletedAtIsNull(String username);
 
-
-    boolean existsByAuthId(Integer authId);
-
-    boolean existsByUsernameAndEnabledIsTrue(String username);
+    boolean existsByUsernameAndEnabledIsTrueAndDeletedAtIsNull(String username);
 }

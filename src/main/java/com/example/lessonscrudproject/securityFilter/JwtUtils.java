@@ -11,16 +11,14 @@ import org.springframework.stereotype.Component;
 import java.util.Date;
 
 @Component
-public class JwtUtil {
-
+public class JwtUtils {
     @Value(value = "${secret.key}")
     private String secretKey;
 
-
-    public String generateToken(String user) {
+    public String generateToken(String auth) {
         return Jwts.builder()
-                .setSubject(user)
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 3))
+                .setSubject(auth)
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 3600 * 24 * 7))
                 .signWith(Keys.hmacShaKeyFor(secretKey.getBytes()))
                 .compact();
     }
@@ -32,15 +30,15 @@ public class JwtUtil {
                     .parseClaimsJws(token)
                     .getBody();
             return !StringUtils.isBlank(body.getSubject());
+
         } catch (Exception e) {
             return false;
         }
     }
 
-    public <T> T getClaim(String name, String token, Class<T> type) {
+    public <T> T getClaims(String token, String name, Class<T> type) {
         try {
-            return parser()
-                    .parseClaimsJws(token)
+            return parser().parseClaimsJws(token)
                     .getBody()
                     .get(name, type);
         } catch (Exception e) {

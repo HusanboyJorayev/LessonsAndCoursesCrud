@@ -1,6 +1,7 @@
 package com.example.lessonscrudproject.repository;
 
 
+
 import com.example.lessonscrudproject.model.Authorities;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

@@ -1,5 +1,7 @@
 package com.example.lessonscrudproject.security.mapper;
 
+
+
 import com.example.lessonscrudproject.dto.AuthDto;
 import com.example.lessonscrudproject.model.Auth;
 import org.mapstruct.Mapper;
@@ -25,7 +27,8 @@ public abstract class AuthMapper {
     @Mapping(ignore = true, target = "createdAt")
     @Mapping(ignore = true, target = "updatedAt")
     @Mapping(ignore = true, target = "deletedAt")
-    @Mapping(target = "enabled", expression = "java(true)")
+    @Mapping(target = "enabled", expression = "java(false)")
+    @Mapping(target = "code", expression = "java(String.valueOf(0000))")
     public abstract Auth toEntity(AuthDto authDto);
 
     @Mapping(target = "password", expression = "java(passwordEncoder.encode(auth.getPassword()))")
@@ -35,6 +38,7 @@ public abstract class AuthMapper {
     public void view(Auth auth) {
         AuthDto dto = new AuthDto();
         passwordEncoder.encode(auth.getPassword());
+        String str=String.valueOf(0000);
         dto.setAuthorities(auth.getAuthorities().stream().map(this.authoritiesMapper::toDto).collect(Collectors.toSet()));
     }
 }
