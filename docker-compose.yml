@@ -1,0 +1,31 @@
+version: "3.7"
+services:
+  api_service:
+    container_name: simple-app-second
+    build:
+      dockerfile: C:\GitHub projects\LessonsAndCoursesCrud\docker
+    restart: always
+    ports:
+      - "8081:8080"
+    depends_on:
+      - postgresql_db
+      - redis
+    links:
+      - redis:redis
+      - postgresql_db:postgresql_db
+  postgresql_db:
+    container_name: simple-postgres-second
+    image: "postgres:15"
+    restart: always
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_DB: docker_db
+      POSTGRES_USER: docker_user
+      POSTGRES_PASSWORD: docker_password
+  redis:
+    container_name: first-redis_db
+    image: "redis"
+    restart: always
+    ports:
+      - "6378:6379"

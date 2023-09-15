@@ -12,8 +12,8 @@ import java.util.Date;
 
 @Component
 public class JwtUtils {
-    @Value(value = "${secret.key}")
-    private String secretKey;
+
+    private final String secretKey="zsxcvghbjkmnwqjbh!@gvhbhkjmwnmkswe2n3jis";
 
     public String generateToken(String auth) {
         return Jwts.builder()
