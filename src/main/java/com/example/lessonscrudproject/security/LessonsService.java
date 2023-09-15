@@ -9,6 +9,8 @@ import com.example.lessonscrudproject.repository.LessonsRepository;
 import com.example.lessonscrudproject.security.mapper.LessonsMapper;
 import com.example.lessonscrudproject.security.validation.LessonsValidation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -115,5 +117,20 @@ public class LessonsService implements SimpleCrud<Integer, LessonsDto> {
                         .code(-1)
                         .message("card is not found")
                         .build());
+    }
+
+    public ResponseDto<Page<LessonsDto>> getAllPage(Integer page, Integer size) {
+        Page<Lessons> lessons = this.lessonsRepository.findAllByDeletedAtIsNull(PageRequest.of(page, size));
+        if (lessons.isEmpty()) {
+            return ResponseDto.<Page<LessonsDto>>builder()
+                    .code(-1)
+                    .message("Lessons are not found")
+                    .build();
+        }
+        return ResponseDto.<Page<LessonsDto>>builder()
+                .success(true)
+                .message("Ok")
+                .data(lessons.map(this.lessonsMapper::toDto))
+                .build();
     }
 }

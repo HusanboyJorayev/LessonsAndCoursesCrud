@@ -9,6 +9,8 @@ import com.example.lessonscrudproject.repository.CoursesRepository;
 import com.example.lessonscrudproject.security.mapper.CoursesMapper;
 import com.example.lessonscrudproject.security.validation.CoursesValidation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -114,4 +116,19 @@ public class CoursesService implements SimpleCrud<Integer, CoursesDto> {
                         .message("user is not found")
                         .build());
     }
+    public ResponseDto<Page<CoursesDto>> getByPage(Integer page, Integer size){
+        Page<Courses>coursesPage=this.coursesRepository.findAllByDeletedAtIsNull(PageRequest.of(page,size));
+        if (coursesPage.isEmpty()){
+            return ResponseDto.<Page<CoursesDto>>builder()
+                    .code(-1)
+                    .message("Courses are not found")
+                    .build();
+        }
+        return ResponseDto.<Page<CoursesDto>>builder()
+                .success(true)
+                .message("Ok")
+                .data(coursesPage.map(this.coursesMapper::toDtoWithLessons))
+                .build();
+    }
+
 }

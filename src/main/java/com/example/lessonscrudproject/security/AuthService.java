@@ -6,6 +6,7 @@ import com.example.lessonscrudproject.dto.*;
 import com.example.lessonscrudproject.model.Auth;
 import com.example.lessonscrudproject.model.AuthAccessSession;
 import com.example.lessonscrudproject.model.AuthRefreshSession;
+import com.example.lessonscrudproject.model.Authorities;
 import com.example.lessonscrudproject.repository.AuthAccessSessionRepository;
 import com.example.lessonscrudproject.repository.AuthRefreshSessionRepository;
 import com.example.lessonscrudproject.repository.AuthRepository;
@@ -47,11 +48,11 @@ public class AuthService implements UserDetailsService {
             Auth auth = this.authMapper.toEntity(dto);
             auth.setCreatedAt(LocalDateTime.now());
 
-          /*  this.authoritiesRepository.save(Authorities.builder()
+            this.authoritiesRepository.save(Authorities.builder()
                     .authId(auth.getAuthId())
                     .authority("USer")
                     .username(auth.getUsername())
-                    .build());*/
+                    .build());
 
             this.authRepository.save(auth);
             return ResponseDto.<AuthDto>builder()

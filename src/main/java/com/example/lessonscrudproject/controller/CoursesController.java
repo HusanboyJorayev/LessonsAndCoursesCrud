@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -103,6 +104,27 @@ public class CoursesController implements SimpleCrud<Integer, CoursesDto> {
     )
     public ResponseDto<CoursesDto> delete(@RequestParam Integer id) {
         return this.coursesService.delete(id);
+    }
+
+    @Operation(
+            description = "get by page",
+            method = "get",
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE
+                    )
+            ),
+            responses = @ApiResponse(
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE
+                    )
+            ),
+            summary = "this is a get method by page"
+
+    )
+    @GetMapping(value = "/getByPage")
+    ResponseDto<Page<CoursesDto>> getAPge(Integer page, Integer size) {
+        return this.coursesService.getByPage(page, size);
     }
 
 }

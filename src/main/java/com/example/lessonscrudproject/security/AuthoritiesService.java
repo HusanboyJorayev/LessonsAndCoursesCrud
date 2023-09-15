@@ -7,6 +7,8 @@ import com.example.lessonscrudproject.model.Authorities;
 import com.example.lessonscrudproject.repository.AuthoritiesRepository;
 import com.example.lessonscrudproject.security.mapper.AuthoritiesMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -114,6 +116,21 @@ public class AuthoritiesService /*implements SimpleCrud<Integer, AuthoritiesDto>
                 .success(true)
                 .message("Ok")
                 .data(list.stream().map(this.authoritiesMapper::toDto).toList())
+                .build();
+    }
+
+    public ResponseDto<Page<AuthoritiesDto>> getAllPage(Integer page, Integer size) {
+        Page<Authorities> authorities = this.authoritiesRepository.findAllByDeletedAtIsNull(PageRequest.of(page, size));
+        if (authorities.isEmpty()) {
+            return ResponseDto.<Page<AuthoritiesDto>>builder()
+                    .code(-1)
+                    .message("Authorities are not found")
+                    .build();
+        }
+        return ResponseDto.<Page<AuthoritiesDto>>builder()
+                .success(true)
+                .message("Ok")
+                .data(authorities.map(this.authoritiesMapper::toDto))
                 .build();
     }
 }

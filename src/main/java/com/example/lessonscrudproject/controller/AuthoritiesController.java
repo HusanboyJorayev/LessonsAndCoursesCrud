@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -123,5 +124,25 @@ public class AuthoritiesController /*implements SimpleCrud<Integer, AuthoritiesD
     )
     public ResponseDto<List<AuthoritiesDto>> getAll() {
         return this.authoritiesService.getAll();
+    }
+
+    @GetMapping(value = "/getAll")
+    @Operation(
+            description = "this is a get by page",
+            method = "get",
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE
+                    )
+            ),
+            responses = @ApiResponse(
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE
+                    )
+            ),
+            summary = "this is a pageable"
+    )
+    ResponseDto<Page<AuthoritiesDto>> getAllPAge(Integer page, Integer size) {
+        return this.authoritiesService.getAllPage(page, size);
     }
 }

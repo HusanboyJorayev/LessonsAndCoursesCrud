@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -101,5 +102,24 @@ public class LessonsController implements SimpleCrud<Integer, LessonsDto> {
     )
     public ResponseDto<LessonsDto> delete(@RequestParam Integer id) {
         return this.lessonsService.delete(id);
+    }
+    @GetMapping(value = "/getAllPage")
+    @Operation(
+            description = "this is a getAllPage method",
+            method = "get",
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE
+                    )
+            ),
+            responses = @ApiResponse(
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE
+                    )
+            ),
+            summary = "this method getAllPage"
+    )
+    ResponseDto<Page<LessonsDto>>getByPage(Integer page,Integer size){
+        return this.lessonsService.getAllPage(page, size);
     }
 }

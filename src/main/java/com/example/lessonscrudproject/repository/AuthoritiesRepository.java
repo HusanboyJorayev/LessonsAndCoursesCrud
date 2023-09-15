@@ -3,6 +3,8 @@ package com.example.lessonscrudproject.repository;
 
 
 import com.example.lessonscrudproject.model.Authorities;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -18,4 +20,6 @@ public interface AuthoritiesRepository extends JpaRepository<Authorities, Intege
             nativeQuery = true
     )
     List<Authorities>findAllWithQuery();
+
+    Page<Authorities>findAllByDeletedAtIsNull(Pageable pageable);
 }
